@@ -1,5 +1,5 @@
 {
-  "name": "ss-kv",
+  "name": "@gflamino-dev/ss-kv",
   "version": "0.0.3",
   "main": "index.js",
   "publishConfig": {
