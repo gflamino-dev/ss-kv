@@ -1,6 +1,6 @@
 {
   "name": "@gflamino-dev/ss-kv",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "main": "index.js",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
