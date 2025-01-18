@@ -1,0 +1,23 @@
+{
+  "name": "ss-kv",
+  "version": "0.0.3",
+  "main": "index.js",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "test": "node test"
+  },
+  "keywords": [],
+  "author": "Gil Flamino <gflamino@continuouscareapp.dev>",
+  "license": "UNLICENSED",
+  "description": "A library to fetch secrets from Azure Key Vault.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gflamino-dev/ss-kv.git"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.5.0",
+    "@azure/keyvault-secrets": "^4.9.0"
+  }
+}
