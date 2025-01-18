@@ -1,104 +1,123 @@
-# ss-kv
+# @gflamino-dev/ss-kv
 
-`ss-kv` is a lightweight Node.js library for securely fetching secrets from Azure Key Vault. It uses Azure's `DefaultAzureCredential` for authentication and integrates with Azure Key Vault's secret management capabilities.
+## Overview
+
+`@gflamino-dev/ss-kv` is a Node.js library designed to fetch secrets from Azure Key Vault. This library uses the `@azure/identity` and `@azure/keyvault-secrets` packages to securely authenticate and retrieve secrets from your Azure Key Vault instance.
 
 ## Installation
 
-To use `ss-kv`, install it via npm:
+To install this library, you need to have access to GitHub's npm registry. Use the following command:
 
 ```bash
-npm install @gflamino-dev/ss-kv
+npm install @gflamino-dev/ss-kv --registry=https://npm.pkg.github.com
 ```
 
-## Prerequisites
+Ensure that your `.npmrc` file includes the following configuration to properly route packages from GitHub's npm registry:
 
-- An Azure Key Vault instance.
-- An Azure identity that has access to the Key Vault (e.g., a Managed Identity, Service Principal, or Azure CLI).
-- The `KEYVAULT_URI` environment variable set to your Key Vault URI.
-
-## Setup
-
-Before using this library, ensure that your environment is properly configured to authenticate with Azure Key Vault.
-
-### Authentication
-
-`ss-kv` relies on Azure's `DefaultAzureCredential`, which supports several authentication methods:
-
-- Managed Identity (Azure resources like VMs or App Services).
-- Environment variables:
-  - `AZURE_CLIENT_ID`
-  - `AZURE_TENANT_ID`
-  - `AZURE_CLIENT_SECRET`
-- Azure CLI credentials (if logged in locally).
-
-For more information on `DefaultAzureCredential`, refer to the [Azure SDK documentation](https://learn.microsoft.com/en-us/javascript/api/@azure/identity/defaultazurecredential).
+```bash
+registry=https://registry.npmjs.org/
+@gflamino-dev:registry=https://npm.pkg.github.com
+```
 
 ## Usage
 
-Here is an example of how to use `ss-kv` to fetch a secret from Azure Key Vault:
+Here’s an example of how to use the library to fetch secrets from Azure Key Vault:
 
-### Fetching a Secret
+### Fetching a Single Secret
 
 ```javascript
-const { getSecret } = require('ss-kv');
+const { getSecrets } = require('@gflamino-dev/ss-kv');
 
 (async () => {
-    try {
-        const secretName = 'my-secret';
-        const secretValue = await getSecret(secretName);
-        console.log(`Secret value: ${secretValue}`);
-    } catch (error) {
-        console.error('Error fetching secret:', error.message);
-    }
+    const secretName = 'exampleSecret';
+    const result = await getSecrets(secretName);
+    console.log(result); // Output: [{ exampleSecret: 'secretValue' }]
 })();
 ```
 
-### Environment Variable Configuration
+### Fetching Multiple Secrets
 
-Ensure you set the `KEYVAULT_URI` environment variable to your Key Vault's URI:
+```javascript
+const { getSecrets } = require('@gflamino-dev/ss-kv');
 
-```bash
-$env:KEYVAULT_URI = "https://kv-test-gil.vault.azure.net"
+(async () => {
+    const secretNames = ['exampleSecret1', 'exampleSecret2'];
+    const result = await getSecrets(secretNames);
+    console.log(result);
+    // Output: [{ exampleSecret1: 'value1' }, { exampleSecret2: 'value2' }]
+})();
 ```
 
-If `KEYVAULT_URI` is not set, the library will return an error.
+### Handling Missing Secrets
 
-## API
+If a secret is not found, the library will return an object with the secret name and a `null` value:
 
-### `getSecret(secretName)`
+```javascript
+const { getSecrets } = require('@gflamino-dev/ss-kv');
 
-Fetch a secret from Azure Key Vault.
-
-#### Parameters
-- `secretName` *(string)*: The name of the secret to retrieve.
-
-#### Returns
-- A `Promise<string>`: Resolves to the secret value.
-
-#### Errors
-Throws an error if the secret cannot be retrieved or if the Key Vault connection fails.
-
-## Dependencies
-
-The library depends on the following Azure SDK packages:
-
-- `@azure/identity`: For authenticating with Azure.
-- `@azure/keyvault-secrets`: For interacting with Azure Key Vault.
+(async () => {
+    const secretNames = ['validSecret', 'missingSecret'];
+    const result = await getSecrets(secretNames);
+    console.log(result);
+    // Output: [{ validSecret: 'value1' }, { missingSecret: null }]
+})();
+```
 
 ## Testing
 
-You can test the library by running:
+To run the tests for this library, use the following command:
 
 ```bash
 npm test
 ```
 
-Ensure that the required environment variables are set before running the tests.
+The test script (`test.js`) verifies the correctness of the `getSecrets` function, including scenarios for:
+
+- Fetching a single secret.
+- Fetching multiple secrets.
+- Handling missing secrets.
+
+### Example Test Cases
+
+#### Single Secret Test
+
+```javascript
+assert.deepStrictEqual(await getSecrets('testkey'), [{ testkey: 'ABC123xyz' }]);
+```
+
+#### Multiple Secrets Test
+
+```javascript
+assert.deepStrictEqual(await getSecrets(['testkey', 'testkey2']), [
+    { testkey: 'ABC123xyz' },
+    { testkey2: null }
+]);
+```
+
+## Configuration
+
+Make sure to set the `KEYVAULT_URI` environment variable to the URI of your Azure Key Vault instance before using this library:
+
+```bash
+$env:KEYVAULT_URI = "https://kv-test-gil.vault.azure.net"
+```
+
+## Dependencies
+
+This library depends on the following packages:
+
+- [`@azure/identity`](https://www.npmjs.com/package/@azure/identity): For Azure authentication.
+- [`@azure/keyvault-secrets`](https://www.npmjs.com/package/@azure/keyvault-secrets): For interacting with Azure Key Vault secrets.
 
 ## License
 
-This package is provided under the `UNLICENSED` license. Contact the author for more information on licensing terms.
+This project is licensed as `UNLICENSED`.
 
 ## Author
 
-Created by Gil Flamino (<gflamino@continuouscareapp.dev>).
+Created and maintained by **Gil Flamino** (<gflamino@continuouscareapp.dev>).
+
+## Repository
+
+[GitHub Repository](https://github.com/gflamino-dev/ss-kv)
+
