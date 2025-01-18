@@ -1,4 +1,3 @@
 # .gitignore
 .env
-.npmrc
 node_modules/
