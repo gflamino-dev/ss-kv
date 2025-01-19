@@ -7,16 +7,16 @@ const { getSecrets } = require('./index');
 const assert = require('assert');
 
 /**
- * Array representing the expected result for a single secret.
- * @type {Array<Object<string, string>>}
+ * Object representing the expected result for a single secret.
+ * @type {Object<string, string>}
  */
-const arr1 = [{ testkey: 'ABC123xyz' }];
+const obj1 = { testkey: 'ABC123xyz' };
 
 /**
- * Array representing the expected result for multiple secrets with one missing.
- * @type {Array<Object<string, (string|null)>>}
+ * Object representing the expected result for multiple secrets with one missing.
+ * @type {Object<string, (string|null)>}
  */
-const arr2 = [{ testkey: 'ABC123xyz' }, { testkey2: null }];
+const obj2 = { testkey: 'ABC123xyz', testkey2: null };
 
 (async () => {
     console.log("Starting test...");
@@ -24,21 +24,21 @@ const arr2 = [{ testkey: 'ABC123xyz' }, { testkey2: null }];
     try {
         /**
          * Test fetching a single secret.
-         * @type {Array<Object<string, string>>}
+         * @type {Object<string, string>}
          */
-        const secretsArray1 = await getSecrets('testkey');
+        const secretsObj1 = await getSecrets('testkey');
 
         // Assert the result matches the expected value.
-        assert.deepStrictEqual(arr1, secretsArray1);
+        assert.deepStrictEqual(obj1, secretsObj1);
 
         /**
          * Test fetching multiple secrets including a missing one.
-         * @type {Array<Object<string, (string|null)>>}
+         * @type {Object<string, (string|null)>}
          */
-        const secretsArray2 = await getSecrets(['testkey', 'testkey2']);
+        const secretsObj2 = await getSecrets(['testkey', 'testkey2']);
 
         // Assert the result matches the expected value.
-        assert.deepStrictEqual(arr2, secretsArray2);
+        assert.deepStrictEqual(obj2, secretsObj2);
 
         console.log("Test passed: Function returned the expected result.");
     } catch (error) {
