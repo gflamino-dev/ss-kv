@@ -44,7 +44,7 @@ const { getSecrets } = require('@gflamino-dev/ss-kv');
     const secretNames = ['exampleSecret1', 'exampleSecret2'];
     const result = await getSecrets(secretNames);
     console.log(result);
-    // Output: [{ exampleSecret1: 'value1' }, { exampleSecret2: 'value2' }]
+    // Output: {exampleSecret1: 'value1', exampleSecret2: 'value2'}
 })();
 ```
 
@@ -99,6 +99,7 @@ assert.deepStrictEqual(await getSecrets(['testkey', 'testkey2']), [
 Make sure to set the `KEYVAULT_URI` environment variable to the URI of your Azure Key Vault instance before using this library:
 
 ```bash
+az login --identity
 $env:KEYVAULT_URI = "https://kv-test-gil.vault.azure.net"
 ```
 

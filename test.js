@@ -10,13 +10,13 @@ const assert = require('assert');
  * Object representing the expected result for a single secret.
  * @type {Object<string, string>}
  */
-const obj1 = { testkey: 'ABC123xyz' };
+const obj1 = {testkey: 'ABC123xyz'};
 
 /**
  * Object representing the expected result for multiple secrets with one missing.
  * @type {Object<string, (string|null)>}
  */
-const obj2 = { testkey: 'ABC123xyz', testkey2: null };
+const obj2 = {testkey: 'ABC123xyz', testkey2: null};
 
 (async () => {
     console.log("Starting test...");

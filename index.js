@@ -7,6 +7,21 @@ const KEY_VAULT_URI = process.env.KEYVAULT_URI;
  * Fetch one or many secrets from Azure Key Vault.
  * @param {string|string[]} secretNames - The name(s) of the secret(s).
  * @returns {Promise<Object>} - An object containing key-value pairs of secret names and their values.
+ * 
+ * @example
+ * Input Param
+ * 'secretName'
+ * 
+ * Returns
+ * {'secretName': 'value'}
+ * 
+ * @example
+ * Input Params
+ * ['secretName', 'secretName2']
+ * 
+ * Returns
+ * {'secretName': 'value', 'secretName2': 'value'}
+ * 
  */
 async function getSecrets(secretNames) {
     const credential = new DefaultAzureCredential();
